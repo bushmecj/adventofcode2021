@@ -1,0 +1,33 @@
+{
+  "name": "advent-of-code-2021",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Advent of code challenges for 2021",
+  "main": "",
+  "scripts": {
+    "start": "./scripts/run.sh",
+    "test": "mocha \"./test/**/*.spec.js\"",
+    "test-with-reports": "nyc npm run test -- -R mochawesome && nyc report --reporter=lcov",
+    "docs": "jsdoc -r -d docs -c jsdoc-conf.json src README.md",
+    "open-docs": "npm run docs && open ./docs/index.html",
+    "lint": "eslint \"./src/**/*.js\" \"./test/**/*.js\"",
+    "lint-fix": "eslint --fix \"./src/**/*.js\" \"./test/**/*.js\"",
+    "check-coverage": "nyc check-coverage --branches 90 --functions 90 --lines 90 --statements 90 --per-file true"
+  },
+  "nyc": {
+    "include": "src"
+  },
+  "author": "Chris Bushmeyer",
+  "devDependencies": {
+    "chai" : "~4.3.4",
+    "eslint-config-airbnb-base": "~15.0.0",
+    "eslint-plugin-import": "~2.25.3",
+    "mocha": "~9.1.3",
+    "mochawesome": "~7.0.1",
+    "sinon": "~12.0.1",
+    "sinon-chai": "~3.7.0"
+  },
+  "engines": {
+    "node": ">12.3.0"
+  }
+}
