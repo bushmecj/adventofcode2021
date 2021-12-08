@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const input = [
   198,
   208,
@@ -2000,3 +2001,18 @@ const input = [
   10931,
   10930,
 ];
+
+const windowedData = input.map((element, idx, fullArray) => {
+  if (idx > 1) {
+    return element + fullArray[idx - 1] + fullArray[idx - 2];
+  }
+})
+  .filter((element) => element !== undefined);
+console.log(windowedData);
+
+const depthIncreaseCount = windowedData.filter((depth, idx, arr) => idx > 0 && depth > arr[idx - 1])
+  .length;
+console.log(depthIncreaseCount);
+
+// PART TWO
+

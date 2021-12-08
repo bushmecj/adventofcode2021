@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const input = [
   198,
   208,
@@ -2000,3 +2001,7 @@ const input = [
   10931,
   10930,
 ];
+
+const increaseCount = input.filter((depth, idx, arr) => idx > 0 && depth > arr[idx - 1]).length;
+
+console.log(increaseCount);
