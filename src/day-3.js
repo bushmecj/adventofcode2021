@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 const input = [
   '010101110000',
   '010011000110',
@@ -1005,36 +1006,36 @@ const columnData = {};
 
 // Group by columns
 input.forEach((binary) => {
-  for(let i = 0; i < binary.length; i++) {
-    if(!columnData[i + 1]) {
+  for (let i = 0; i < binary.length; i += 1) {
+    if (!columnData[i + 1]) {
       columnData[i + 1] = { data: binary[i] };
     } else {
-      columnData[i + 1]['data'] += binary[i];
+      columnData[i + 1].data += binary[i];
     }
   }
 });
 
 // Get gamma rate
 let gammaRate = '';
-for ( const [key, value] of Object.entries(columnData)){
+Object.entries(columnData).forEach(([key, value]) => {
   const zeroCount = value.data.split('0').length;
   const oneCount = value.data.split('1').length;
-  if (zeroCount > oneCount){
+  if (zeroCount > oneCount) {
     value.max = '0';
     gammaRate += '0';
   } else {
     value.max = '1';
     gammaRate += '1';
   }
-}
+});
 
 const flipBits = (value) => {
   let output = '';
-  for (let i = 0; i < value.length; i++){
+  for (let i = 0; i < value.length; i += 1) {
     if (value[i] === '0') {
-      output += '1'
+      output += '1';
     } else {
-      output += '0'
+      output += '0';
     }
   }
   return output;
@@ -1044,3 +1045,44 @@ const gammaRateDec = parseInt(gammaRate, 2);
 const epsilonRate = flipBits(gammaRate);
 const epsilonRateDec = parseInt(epsilonRate, 2);
 console.log(`Part one: Power consumption = ${gammaRateDec * epsilonRateDec}`);
+
+// PART TWO
+const getBitsInNPosition = (array, nPos) => {
+  let nPosBits = '';
+  array.forEach((bits) => {
+    nPosBits += bits[nPos];
+  });
+  return nPosBits;
+};
+
+const getMostAndLeastCommon = (bits) => {
+  const zerosCount = bits.split('0').length;
+  const onesCount = bits.split('1').length;
+  return {
+    most: onesCount >= zerosCount ? '1' : '0',
+    least: zerosCount <= onesCount ? '0' : '1',
+  };
+};
+
+const filterByBitInNPos = (array, nPos, bitVal) => array
+  .filter((element) => element[nPos] === bitVal);
+
+let output = '';
+const getRating = (array, nPos, grabMostOrLeast) => {
+  if (array.length === 1) {
+    output = array[0];
+  } else {
+    const bitsInNPosition = getBitsInNPosition(array, nPos);
+    const { most, least } = getMostAndLeastCommon(bitsInNPosition);
+    const bitVal = grabMostOrLeast === 'most' ? most : least;
+    const resultingArray = filterByBitInNPos(array, nPos, bitVal);
+    getRating(resultingArray, nPos + 1, grabMostOrLeast);
+  }
+  return parseInt(output, 2);
+};
+
+const oxygenGeneratorRating = getRating(input, 0, 'most');
+console.log(oxygenGeneratorRating);
+const cO2ScrubberRating = getRating(input, 0, 'least');
+console.log(cO2ScrubberRating);
+console.log(`Part two life support rating: ${oxygenGeneratorRating * cO2ScrubberRating}`);
